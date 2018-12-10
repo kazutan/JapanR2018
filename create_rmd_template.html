@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="author" content="kazutan" />
+  <title>R Markdownテンプレートの 作り方</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="create_rmd_template_files/reveal.js-3.3.0.1/css/reveal.css"/>
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="create_rmd_template_files/reveal.js-3.3.0.1/css/theme/sky.css" id="theme">
+
+
+  <!-- some tweaks to reveal css -->
+  <style type="text/css">
+    .reveal h1 { font-size: 2.0em; }
+    .reveal h2 { font-size: 1.5em;  }
+    .reveal h3 { font-size: 1.25em;	}
+    .reveal h4 { font-size: 1em;	}
+
+    .reveal .slides>section,
+    .reveal .slides>section>section {
+      padding: 0px 0px;
+    }
+
+
+
+    .reveal table {
+      border-width: 1px;
+      border-spacing: 2px;
+      border-style: dotted;
+      border-color: gray;
+      border-collapse: collapse;
+      font-size: 0.7em;
+    }
+
+    .reveal table th {
+      border-width: 1px;
+      padding-left: 10px;
+      padding-right: 25px;
+      font-weight: bold;
+      border-style: dotted;
+      border-color: gray;
+    }
+
+    .reveal table td {
+      border-width: 1px;
+      padding-left: 10px;
+      padding-right: 25px;
+      border-style: dotted;
+      border-color: gray;
+    }
+
+
+  </style>
+
+    <style type="text/css">code{white-space: pre;}</style>
+
+    <link rel="stylesheet" href="for-revealjs.css"/>
+
+<!-- Printing and PDF exports -->
+<script id="paper-css" type="application/dynamic-css">
+
+/* Default Print Stylesheet Template
+   by Rob Glazebrook of CSSnewbie.com
+   Last Updated: June 4, 2008
+
+   Feel free (nay, compelled) to edit, append, and
+   manipulate this file as you see fit. */
+
+
+@media print {
+
+	/* SECTION 1: Set default width, margin, float, and
+	   background. This prevents elements from extending
+	   beyond the edge of the printed page, and prevents
+	   unnecessary background images from printing */
+	html {
+		background: #fff;
+		width: auto;
+		height: auto;
+		overflow: visible;
+	}
+	body {
+		background: #fff;
+		font-size: 20pt;
+		width: auto;
+		height: auto;
+		border: 0;
+		margin: 0 5%;
+		padding: 0;
+		overflow: visible;
+		float: none !important;
+	}
+
+	/* SECTION 2: Remove any elements not needed in print.
+	   This would include navigation, ads, sidebars, etc. */
+	.nestedarrow,
+	.controls,
+	.fork-reveal,
+	.share-reveal,
+	.state-background,
+	.reveal .progress,
+	.reveal .backgrounds {
+		display: none !important;
+	}
+
+	/* SECTION 3: Set body font face, size, and color.
+	   Consider using a serif font for readability. */
+	body, p, td, li, div {
+		font-size: 20pt!important;
+		font-family: Georgia, "Times New Roman", Times, serif !important;
+		color: #000;
+	}
+
+	/* SECTION 4: Set heading font face, sizes, and color.
+	   Differentiate your headings from your body text.
+	   Perhaps use a large sans-serif for distinction. */
+	h1,h2,h3,h4,h5,h6 {
+		color: #000!important;
+		height: auto;
+		line-height: normal;
+		font-family: Georgia, "Times New Roman", Times, serif !important;
+		text-shadow: 0 0 0 #000 !important;
+		text-align: left;
+		letter-spacing: normal;
+	}
+	/* Need to reduce the size of the fonts for printing */
+	h1 { font-size: 28pt !important;  }
+	h2 { font-size: 24pt !important; }
+	h3 { font-size: 22pt !important; }
+	h4 { font-size: 22pt !important; font-variant: small-caps; }
+	h5 { font-size: 21pt !important; }
+	h6 { font-size: 20pt !important; font-style: italic; }
+
+	/* SECTION 5: Make hyperlinks more usable.
+	   Ensure links are underlined, and consider appending
+	   the URL to the end of the link for usability. */
+	a:link,
+	a:visited {
+		color: #000 !important;
+		font-weight: bold;
+		text-decoration: underline;
+	}
+	/*
+	.reveal a:link:after,
+	.reveal a:visited:after {
+		content: " (" attr(href) ") ";
+		color: #222 !important;
+		font-size: 90%;
+	}
+	*/
+
+
+	/* SECTION 6: more reveal.js specific additions by @skypanther */
+	ul, ol, div, p {
+		visibility: visible;
+		position: static;
+		width: auto;
+		height: auto;
+		display: block;
+		overflow: visible;
+		margin: 0;
+		text-align: left !important;
+	}
+	.reveal pre,
+	.reveal table {
+		margin-left: 0;
+		margin-right: 0;
+	}
+	.reveal pre code {
+		padding: 20px;
+		border: 1px solid #ddd;
+	}
+	.reveal blockquote {
+		margin: 20px 0;
+	}
+	.reveal .slides {
+		position: static !important;
+		width: auto !important;
+		height: auto !important;
+
+		left: 0 !important;
+		top: 0 !important;
+		margin-left: 0 !important;
+		margin-top: 0 !important;
+		padding: 0 !important;
+		zoom: 1 !important;
+
+		overflow: visible !important;
+		display: block !important;
+
+		text-align: left !important;
+		-webkit-perspective: none;
+		   -moz-perspective: none;
+		    -ms-perspective: none;
+		        perspective: none;
+
+		-webkit-perspective-origin: 50% 50%;
+		   -moz-perspective-origin: 50% 50%;
+		    -ms-perspective-origin: 50% 50%;
+		        perspective-origin: 50% 50%;
+	}
+	.reveal .slides section {
+		visibility: visible !important;
+		position: static !important;
+		width: auto !important;
+		height: auto !important;
+		display: block !important;
+		overflow: visible !important;
+
+		left: 0 !important;
+		top: 0 !important;
+		margin-left: 0 !important;
+		margin-top: 0 !important;
+		padding: 60px 20px !important;
+		z-index: auto !important;
+
+		opacity: 1 !important;
+
+		page-break-after: always !important;
+
+		-webkit-transform-style: flat !important;
+		   -moz-transform-style: flat !important;
+		    -ms-transform-style: flat !important;
+		        transform-style: flat !important;
+
+		-webkit-transform: none !important;
+		   -moz-transform: none !important;
+		    -ms-transform: none !important;
+		        transform: none !important;
+
+		-webkit-transition: none !important;
+		   -moz-transition: none !important;
+		    -ms-transition: none !important;
+		        transition: none !important;
+	}
+	.reveal .slides section.stack {
+		padding: 0 !important;
+	}
+	.reveal section:last-of-type {
+		page-break-after: avoid !important;
+	}
+	.reveal section .fragment {
+		opacity: 1 !important;
+		visibility: visible !important;
+
+		-webkit-transform: none !important;
+		   -moz-transform: none !important;
+		    -ms-transform: none !important;
+		        transform: none !important;
+	}
+	.reveal section img {
+		display: block;
+		margin: 15px 0px;
+		background: rgba(255,255,255,1);
+		border: 1px solid #666;
+		box-shadow: none;
+	}
+
+	.reveal section small {
+		font-size: 0.8em;
+	}
+
+}  
+</script>
+
+
+<script id="pdf-css" type="application/dynamic-css">
+    
+/**
+ * This stylesheet is used to print reveal.js
+ * presentations to PDF.
+ *
+ * https://github.com/hakimel/reveal.js#pdf-export
+ */
+
+* {
+	-webkit-print-color-adjust: exact;
+}
+
+body {
+	margin: 0 auto !important;
+	border: 0;
+	padding: 0;
+	float: none !important;
+	overflow: visible;
+}
+
+html {
+	width: 100%;
+	height: 100%;
+	overflow: visible;
+}
+
+/* Remove any elements not needed in print. */
+.nestedarrow,
+.reveal .controls,
+.reveal .progress,
+.reveal .playback,
+.reveal.overview,
+.fork-reveal,
+.share-reveal,
+.state-background {
+	display: none !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	text-shadow: 0 0 0 #000 !important;
+}
+
+.reveal pre code {
+	overflow: hidden !important;
+	font-family: Courier, 'Courier New', monospace !important;
+}
+
+ul, ol, div, p {
+	visibility: visible;
+	position: static;
+	width: auto;
+	height: auto;
+	display: block;
+	overflow: visible;
+	margin: auto;
+}
+.reveal {
+	width: auto !important;
+	height: auto !important;
+	overflow: hidden !important;
+}
+.reveal .slides {
+	position: static;
+	width: 100%;
+	height: auto;
+
+	left: auto;
+	top: auto;
+	margin: 0 !important;
+	padding: 0 !important;
+
+	overflow: visible;
+	display: block;
+
+	-webkit-perspective: none;
+	   -moz-perspective: none;
+	    -ms-perspective: none;
+	        perspective: none;
+
+	-webkit-perspective-origin: 50% 50%; /* there isn't a none/auto value but 50-50 is the default */
+	   -moz-perspective-origin: 50% 50%;
+	    -ms-perspective-origin: 50% 50%;
+	        perspective-origin: 50% 50%;
+}
+
+.reveal .slides section {
+	page-break-after: always !important;
+
+	visibility: visible !important;
+	position: relative !important;
+	display: block !important;
+	position: relative !important;
+
+	margin: 0 !important;
+	padding: 0 !important;
+	box-sizing: border-box !important;
+	min-height: 1px;
+
+	opacity: 1 !important;
+
+	-webkit-transform-style: flat !important;
+	   -moz-transform-style: flat !important;
+	    -ms-transform-style: flat !important;
+	        transform-style: flat !important;
+
+	-webkit-transform: none !important;
+	   -moz-transform: none !important;
+	    -ms-transform: none !important;
+	        transform: none !important;
+}
+
+.reveal section.stack {
+	margin: 0 !important;
+	padding: 0 !important;
+	page-break-after: avoid !important;
+	height: auto !important;
+	min-height: auto !important;
+}
+
+.reveal img {
+	box-shadow: none;
+}
+
+.reveal .roll {
+	overflow: visible;
+	line-height: 1em;
+}
+
+/* Slide backgrounds are placed inside of their slide when exporting to PDF */
+.reveal section .slide-background {
+	display: block !important;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	z-index: -1;
+}
+
+/* All elements should be above the slide-background */
+.reveal section>* {
+	position: relative;
+	z-index: 1;
+}
+
+/* Display slide speaker notes when 'showNotes' is enabled */
+.reveal .speaker-notes-pdf {
+	display: block;
+	width: 100%;
+	max-height: none;
+	left: auto;
+	top: auto;
+	z-index: 100;
+}
+
+/* Display slide numbers when 'slideNumber' is enabled */
+.reveal .slide-number-pdf {
+	display: block;
+	position: absolute;
+	font-size: 14px;
+}
+
+</script>
+
+
+<script>
+var style = document.createElement( 'style' );
+style.type = 'text/css';
+var style_script_id = window.location.search.match( /print-pdf/gi ) ? 'pdf-css' : 'paper-css';
+var style_script = document.getElementById(style_script_id).text;
+style.innerHTML = style_script;
+document.getElementsByTagName('head')[0].appendChild(style);
+</script>
+
+    <link href="create_rmd_template_files/font-awesome-5.0.13/css/fa-svg-with-js.css" rel="stylesheet" />
+    <script src="create_rmd_template_files/font-awesome-5.0.13/js/fontawesome-all.min.js"></script>
+    <script src="create_rmd_template_files/font-awesome-5.0.13/js/fa-v4-shims.min.js"></script>
+    <script src="create_rmd_template_files/htmlwidgets-1.2/htmlwidgets.js"></script>
+    <script src="create_rmd_template_files/viz-0.3/viz.js"></script>
+    <link href="create_rmd_template_files/DiagrammeR-styles-0.2/styles.css" rel="stylesheet" />
+    <script src="create_rmd_template_files/grViz-binding-1.0.0/grViz.js"></script>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section>
+    <h1 class="title">R Markdownテンプレートの<br/>作り方</h1>
+  <h1 class="subtitle">Japan.R 2018<br/>2018-12-01</h1>
+    <h2 class="author">kazutan</h2>
+</section>
+
+<section><section class="title-slide slide level1"><h1>はじめに</h1></section><section class="slide level2">
+<h2>自己紹介</h2>
+<div class="column1">
+<ul>
+<li>前田 和寛(Maeda Kazuhiro)</li>
+<li>福岡で分析のおしごと</li>
+<li><span class="citation" data-cites="kazutan">@kazutan</span>
+<ul>
+<li>Twitter</li>
+<li>GitHub</li>
+<li>Qiita</li>
+</ul></li>
+<li>#宇宙本 #犬4匹本</li>
+</ul>
+</div>
+<div class="column2">
+<p><img data-src="https://kazutan.github.io/RUserMeeting2016/pics/user.png" alt="icon" /></p>
+</div>
+</section><section class="slide level2">
+<h2>今回のおはなし</h2>
+<ul>
+<li>みなさん、標準のR Markdownで満足してますか?</li>
+<li>もっと自分好みにしたくありませんんか?</li>
+</ul>
+<p>今回は｢自分でR Markdownのテンプレートを作る方法｣を解説します</p>
+<ul>
+<li>初級編: はじめてのRmdテンプレ作成</li>
+<li>Rおじさん編: 私が選んた(内部的に)マニアックなものを紹介</li>
+</ul>
+</section><section class="slide level2">
+<h2>免責事項</h2>
+<ul>
+<li><strong>かなりマニアックです</strong>
+<ul>
+<li>R Markdownに対するある程度の理解が必要となります</li>
+<li>実際に作るには(内容によって)以下の知識が必要になります
+<ul>
+<li>CSS, Javascript</li>
+<li>Pandoc etc…</li>
+</ul></li>
+</ul></li>
+<li>パッケージ開発に関する内容は省略します</li>
+<li>かなり駆け足です
+<ul>
+<li>質問はr-wakalangのrmarkdownチャンネルまで</li>
+</ul></li>
+<li>後日、この内容は公開します
+<ul>
+<li>Qiita｢R Advent Calendar 2018｣</li>
+</ul></li>
+<li>今日は｢こんな世界もあるとやなぁ｣と感じれもらえれば…</li>
+</ul>
+</section></section>
+<section><section id="rmarkdownrender" class="title-slide slide level1"><h1><code>rmarkdown::render</code>の処理内容</h1></section><section class="slide level2">
+<h2>よく出てくる処理フロー</h2>
+<ul>
+<li>以下の2ステップでドキュメントなどを生成します
+<ul>
+<li>Rmdファイル内のRコードを評価</li>
+<li>Rコードの出力をMarkdownに起こす</li>
+<li>出来上がったMarkdownファイルを変換
+<ul>
+<li>Pandocというソフトウェアを利用</li>
+<li>RStudioに標準で組み込まれています</li>
+</ul></li>
+</ul></li>
+</ul>
+<p><img src="create_rmd_template_files/figure-revealjs/unnamed-chunk-1-1.png" width="768" /></p>
+</section><section class="slide level2">
+<h2>少し細かい処理フロー</h2>
+<ul>
+<li>実際はこんな感じ
+<ul>
+<li>詳しくは以下の記事を参照: R Markdownの内部とテンプレート開発 <a href="https://kazutan.github.io/TokyoR61/intoTheRmarkdown_d.html" class="uri">https://kazutan.github.io/TokyoR61/intoTheRmarkdown_d.html</a></li>
+</ul></li>
+</ul>
+<div id="htmlwidget-ef411c164737091f475c" style="width:768px;height:500px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-ef411c164737091f475c">{"x":{"diagram":"\ndigraph knit {\n  graph [\n    label = \"R Markdownの流れ\",\n    rankdir = LR,\n    layout = dot,\n    compound = true\n  ]\n\n  subgraph cluster_0 {\n  label = \"<Pandoc系>\"\n  B2 [\n    style = \"solid, filled\",\n    fillcolor = Violet,\n    label = \".md\",\n  ];\n  C [\n    style = \"solid, filled\",\n    fillcolor = LightBlue,\n    label = \"html, docs, \npdf...\"\n  ];\n  \n  E2 [\n    style = \"solid, filled\",\n    fillcolor = DarkGreen,\n    label = \"output_format\"\n  ];\n\n  F4 [label = \"pre_processor\"];\n  F5 [label = \"Pandoc\"];\n  F6 [label = \"post_processor\"];\n\n  B2 -> F4\n  F4 -> F5\n  F5 -> F6\n  F6 -> C\n\n  E2 -> {F4;F6};\n{rank = same; E2;F4}\n  };\n\n  subgraph cluster_1 {\n  label = \"<knit系>\"\n  A [\n    style = \"solid, filled\",\n    fillcolor = Purple1,\n    label = \".Rmd\"\n  ];\n  B [\n    style = \"solid, filled\",\n    fillcolor = Violet,\n    label = \".md\",\n  ];\n  D [\n    style = \"solid, filled\",\n    fillcolor = Blue,\n    label = \"フォーマット\nテンプレ\"\n  ];\n  \n  E [\n    style = \"solid, filled\",\n    fillcolor = DarkGreen,\n    label = \"output_format\"\n  ];\n\n  F1 [label = \"pre_knit\"];\n  F2 [label = \"knit\"];\n  F3 [label = \"post_knit\"];\n\n  A -> F1\n  F1 -> F2\n  F2 -> F3\n  F3 -> B\n\n  A -> D\n  D -> E\n  E -> {F1;F3;};\n\n{rank = same; A;D}\n{rank = same; E;F1}\n};\n}\n","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+</section><section id="pointo_sono_iti" class="slide level2">
+<h2>ポイントその1</h2>
+<p>簡単にするとこんな感じ</p>
+<ol type="1">
+<li>Rmdファイルの内容や設定を取得</li>
+<li>KnitしてRコードを評価</li>
+<li><strong>outputで指定されているoutput形式およびそこの設定にしたがってテンプレートを読み込んで内容を流しこむ<br/>(Pandocのお仕事)</strong></li>
+<li>調整して仕上げて完了</li>
+</ol>
+<p>R Markdownテンプレート開発のポイントはここ!!</p>
+</section><section id="point_sono_ni" class="slide level2">
+<h2>ポイントその2</h2>
+<p>さっきの部分を掘り下げるとこんな感じ</p>
+<ol type="1">
+<li>output用に準備されている<strong>Pandoc向けテンプレート</strong>をset</li>
+<li>流しこむ内容を整える</li>
+<li><strong>設定されたPandocオプション</strong>とPandoc向けテンプレートを利用してPandoc</li>
+</ol>
+<p>つまり、これらが重要:</p>
+<ul>
+<li>Pandoc向けテンプレートを準備する</li>
+<li>Pandocのオプションが設定できるようにする</li>
+</ul>
+</section></section>
+<section><section id="-----" class="title-slide slide level1"><h1>初級編<br/>- 既存のものに機能を追加 -</h1></section><section class="slide level2">
+<h2>まずは拡張から</h2>
+<ul>
+<li>いきなり1から作るのは大変
+<ul>
+<li>まずは｢すでにあるテンプレートをちょっといじる｣ところから</li>
+</ul></li>
+<li>大事なのは｢仕組みを知ること｣
+<ul>
+<li>少し触れながら慣れましょう</li>
+</ul></li>
+</ul>
+<p>今回は、<code>zousan::zousan_document</code>の一部を使って説明します</p>
+<p><code>zousan</code>パッケージは以下のコードでインストールできます:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;kazutan/zousan&quot;</span>)</a></code></pre></div>
+</section><section id="anken_shokyu" class="slide level2">
+<h2>案件整理</h2>
+<ul>
+<li>要望:
+<ul>
+<li>Webでよくある｢画像をクリックしたらぬっっと出てくる、あれがほしい</li>
+</ul></li>
+<li>案件整理:
+<ul>
+<li>どうやら<strong>lightbox</strong>というJavaScriptライブラリでできそう
+<ul>
+<li>このライブラリを読みこませれば、ドキュメント内のimgオブジェクトをクリックしたら出してくれるようになるらしい</li>
+</ul></li>
+<li>てことは…
+<ul>
+<li>必要なscriptを必要なタイミングで挿入できるようPandocテンプレートに仕込む</li>
+<li>Rの出力関数(ここでは<code>zousan_document</code>)にON/OFFをできるよう仕込む</li>
+<li>使いやすいように雛形を準備する …でOK!
+<ul>
+<li>ホントは予想外の仕様で面倒な処理があったけど省略</li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+</section><section class="slide level2">
+<h2>パッケージ用プロジェクトの準備</h2>
+<ul>
+<li>このあたりはパッケージ開発の流れと全く一緒
+<ul>
+<li>GitHubにリポジトリを準備</li>
+<li>作業環境へgit clone</li>
+<li>適宜設定</li>
+</ul></li>
+</ul>
+<p>すみませんが省略します</p>
+</section><section id="pandoc" class="slide level2">
+<h2>Pandocテンプレートを仕込む</h2>
+<p>この場所に<code>default.html</code>を準備する:</p>
+<pre><code>(リポジトリのroot)
+└inst
+ └rmarkdown
+  └templates
+   └(output_format名)
+    └resource
+     └default.html</code></pre>
+<ul>
+<li><code>output_format名</code>はこのあとに準備する関数名と同じにすること
+<ul>
+<li>今回の例なら<code>zousan_document</code></li>
+</ul></li>
+<li>この位置に置くのは固定だと思ってください</li>
+<li>今回は<code>rmarkdown</code>パッケージ標準のをベースにします
+<ul>
+<li>その内容をまるっと持ってくる</li>
+<li>コードはこちら <a href="https://github.com/rstudio/rmarkdown/blob/master/inst/rmd/h/default.html" class="uri">https://github.com/rstudio/rmarkdown/blob/master/inst/rmd/h/default.html</a>
+<ul>
+<li>htmlファイルっぽいけど、いろいろ含まれてますが省略</li>
+</ul></li>
+</ul></li>
+</ul>
+</section><section class="slide level2">
+
+<p>こんな感じで仕込みます: <a href="https://github.com/kazutan/zousan/blob/master/inst/rmarkdown/templates/zousan_document/resources/default.html#L118-L121" class="uri">https://github.com/kazutan/zousan/blob/master/inst/rmarkdown/templates/zousan_document/resources/default.html#L118-L121</a></p>
+<pre><code>$if(lightbox)$
+&lt;link href=&quot;https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.9.0/css/lightbox.min.css&quot; rel=&quot;stylesheet&quot;&gt;
+&lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.9.0/js/lightbox.min.js&quot;&gt;&lt;/script&gt;
+$endif$</code></pre>
+<p>大事なのはここ!</p>
+<pre><code>$if(lightbox)$
+hogehoge...
+$endif$</code></pre>
+</section><section class="slide level2">
+
+<ul>
+<li>Pandocはオプションによって、テンプレート内に埋め込まれたifを分岐させることができる
+<ul>
+<li>このPandocへ送るオプションは<strong>自分で自由に設計できる</strong></li>
+<li>Pandocの処理段階ででやりたい表現は、Pandocのうえでいくらでもできる</li>
+</ul></li>
+<li>あとは自分好みに<code>default.html</code>をいじりまわしてください
+<ul>
+<li>ただし、後で設定したい内容はちゃんと覚えておいてください</li>
+<li>指定の仕方は後述します
+<ul>
+<li>興味がある方はPandoc関連のドキュメントを調べてください</li>
+</ul></li>
+</ul></li>
+</ul>
+<pre><code>$if(lightbox)$
+hogehoge...
+$endif$</code></pre>
+</section><section id="htmlscriptcss" class="slide level2">
+<h2>テンプレートhtmlにscriptやcssを仕込む</h2>
+<ul>
+<li><code>default.html</code>を自分で準備すれば、好き勝手作れる
+<ul>
+<li>今回は以下のようなscriptを記述
+<ul>
+<li>lightboxが不要なimgを拾ってしまってたので</li>
+</ul></li>
+</ul></li>
+</ul>
+<div class="sourceCode" id="cb6"><pre class="sourceCode html"><code class="sourceCode html"><a class="sourceLine" id="cb6-1" data-line-number="1">$if(lightbox)$</a>
+<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="kw">&lt;script&gt;</span></a>
+<a class="sourceLine" id="cb6-3" data-line-number="3"><span class="at">$$</span>(<span class="kw">function</span>()<span class="op">{</span></a>
+<a class="sourceLine" id="cb6-4" data-line-number="4">  <span class="at">$$</span>(<span class="st">&quot;img:not(.lb-image)&quot;</span>).<span class="at">wrap</span>(<span class="kw">function</span>() <span class="op">{</span></a>
+<a class="sourceLine" id="cb6-5" data-line-number="5">    <span class="cf">return</span> <span class="st">&quot;&lt;a href=&#39;&quot;</span> <span class="op">+</span> <span class="at">$$</span>(<span class="kw">this</span>).<span class="at">attr</span>(<span class="st">&quot;src&quot;</span>) <span class="op">+</span> <span class="st">&quot;&#39; data-lightbox=&#39;&quot;</span> <span class="op">+</span> <span class="at">$$</span>(<span class="kw">this</span>).<span class="at">attr</span>(<span class="st">&quot;scr&quot;</span>) <span class="op">+</span> <span class="st">&quot;&#39;&gt;&lt;/a&gt;&quot;</span><span class="op">;</span></a>
+<a class="sourceLine" id="cb6-6" data-line-number="6">  <span class="op">}</span>)<span class="op">;</span></a>
+<a class="sourceLine" id="cb6-7" data-line-number="7"><span class="op">}</span>)<span class="op">;</span></a>
+<a class="sourceLine" id="cb6-8" data-line-number="8"><span class="kw">&lt;/script&gt;</span></a>
+<a class="sourceLine" id="cb6-9" data-line-number="9">$endif$</a></code></pre></div>
+</section><section id="r" class="slide level2">
+<h2>出力用の関数を記述するRファイルを作成</h2>
+<ul>
+<li><code>zousan::document()</code>関数を準備します
+<ul>
+<li>以下のディレクトリに関数を記述したRファイルを設置
+<ul>
+<li>ファイル名は自身がわかるようにしとけばOK
+<ul>
+<li>今回は<code>zousan_document.R</code>とします</li>
+</ul></li>
+<li>これは通常のパッケージ開発と同じ</li>
+</ul></li>
+</ul></li>
+</ul>
+<pre><code>(リポジトリのroot)
+└R
+　└zousan_document.R</code></pre>
+</section><section id="output-format" class="slide level2">
+<h2>output format関数を作成</h2>
+<ul>
+<li>1から作ると非常に大変なので<strong>ベースになるoutput formatを決めてそれを流用</strong>
+<ul>
+<li>実はoutput_formatを作成する関数には<code>base_format</code>引数が存在
+<ul>
+<li>それを利用すると簡単に継承してくれる</li>
+</ul></li>
+</ul></li>
+<li><code>zousan_document</code>は<code>html_document</code>をbase_formatとして利用
+<ul>
+<li>記述するコード量がぐっと減る</li>
+</ul></li>
+<li><code>html_document</code>自体は<code>html_document_base</code>から継承
+<ul>
+<li>興味があって暇を持て余している人は、一度ソースコードを眺めてみてください</li>
+</ul></li>
+</ul>
+</section><section class="slide level2">
+
+<h3>引数の定義</h3>
+<pre><code>zousan_document &lt;- function(fig_width = 7,
+                            fig_height = 5,
+                            (省略)
+                            lightbox = TRUE,
+                            (省略)
+                            ...) { </code></pre>
+<ul>
+<li>R MarkdownテンプレートのUI
+<ul>
+<li>この初期値設定は非常に重要</li>
+<li><code>heml_document</code>にはないけど、新たに`<code>lightbox = TRUE</code>をセット</li>
+</ul></li>
+</ul>
+</section><section class="slide level2">
+
+<h3 id="pandoc">pandocへ引き渡すオプションを整形</h3>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">    <span class="cf">if</span> (lightbox) {</a>
+<a class="sourceLine" id="cb9-2" data-line-number="2">        args &lt;-<span class="st"> </span><span class="kw">c</span>(args, <span class="kw">pandoc_variable_arg</span>(<span class="st">&quot;lightbox&quot;</span>, <span class="st">&quot;1&quot;</span>))</a>
+<a class="sourceLine" id="cb9-3" data-line-number="3">    }</a></code></pre></div>
+<ul>
+<li><code>rmarkdown::pandoc_varlabel_arg</code>関数を使うと簡単に整形してくれる</li>
+<li>あとはこれをPandocに引き渡す他のオプションとセットにしてやればOK
+<ul>
+<li>詳しくはこの関数全体を読んでください</li>
+</ul></li>
+</ul>
+</section><section class="slide level2">
+
+<h3 id="ouput_format">ouput_format()関数を準備</h3>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"></a>
+<a class="sourceLine" id="cb10-2" data-line-number="2">  <span class="co"># return format</span></a>
+<a class="sourceLine" id="cb10-3" data-line-number="3">  <span class="kw">output_format</span>(</a>
+<a class="sourceLine" id="cb10-4" data-line-number="4">    <span class="dt">knitr =</span> <span class="kw">knitr_options_html</span>(fig_width, fig_height, fig_retina, keep_md, dev),</a>
+<a class="sourceLine" id="cb10-5" data-line-number="5">    <span class="dt">pandoc =</span> <span class="kw">pandoc_options</span>(<span class="dt">to =</span> <span class="st">&quot;html&quot;</span>,</a>
+<a class="sourceLine" id="cb10-6" data-line-number="6">                            <span class="dt">from =</span> <span class="kw">from_rmarkdown</span>(fig_caption, md_extensions),</a>
+<a class="sourceLine" id="cb10-7" data-line-number="7">                            <span class="dt">args =</span> args),</a>
+<a class="sourceLine" id="cb10-8" data-line-number="8">    <span class="dt">keep_md =</span> keep_md,</a>
+<a class="sourceLine" id="cb10-9" data-line-number="9">    <span class="dt">clean_supporting =</span> self_contained,</a>
+<a class="sourceLine" id="cb10-10" data-line-number="10">    <span class="dt">base_format =</span> <span class="kw">html_document</span>(<span class="dt">mathjax =</span> mathjax,</a>
+<a class="sourceLine" id="cb10-11" data-line-number="11">                                <span class="dt">md_extensions =</span> md_extensions,</a>
+<a class="sourceLine" id="cb10-12" data-line-number="12">                                <span class="dt">self_contained =</span> self_contained,</a>
+<a class="sourceLine" id="cb10-13" data-line-number="13">                                ...)</a>
+<a class="sourceLine" id="cb10-14" data-line-number="14">  )</a></code></pre></div>
+<ul>
+<li><code>pandoc =</code>のところでpandocへ投げるオプションを送りつける
+<ul>
+<li>これも<code>rmarkdown::pandoc_options</code>という関数が準備されている</li>
+<li>base_formatで継承させるものを指定する</li>
+</ul></li>
+</ul>
+</section><section id="skeleton" class="slide level2">
+<h2>skeleton(骨組)を準備</h2>
+<ul>
+<li>ダイアログボックスからRmdファイルを作成するときに利用できるTemplate
+<ul>
+<li>以下の場所にRmdファイルを準備すると、パッケージインストール時に自動で登録してくれるようになる</li>
+<li>内容は自由です。ただ、そのRmdをKnitすれば自作テンプレートの特徴がよくわかるようなのがいいと思います</li>
+</ul></li>
+</ul>
+<pre><code>(リポジトリのroot)
+└inst
+ └rmarkdown
+  └templates
+   └(output_format名)
+    └skeleton
+     └skeleton.Rmd</code></pre>
+</section><section class="slide level2">
+
+<p>なお、<code>zousan_document</code>は<code>html_document</code>のYAML部分を簡素化したやつです:</p>
+<pre><code>---
+title: &quot;Untitled&quot;
+output: zousan::zousan_document
+---
+
+(以下略)</code></pre>
+</section><section class="slide level2">
+
+<p>Templateメニュー用の説明は<code>template.yaml</code>にまとめて、以下の場所に設置します</p>
+<pre><code>(リポジトリのroot)
+└inst
+ └rmarkdown
+  └templates
+   └(output_format名)
+    └template.yaml  &lt;- コレ</code></pre>
+</section><section class="slide level2">
+
+<p><code>zousan_docment</code>ではこんな感じ</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode yaml"><code class="sourceCode yaml"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="fu">name:</span><span class="at"> html document for zousan</span></a>
+<a class="sourceLine" id="cb14-2" data-line-number="2"><span class="fu">description:</span><span class="at"> &gt;</span></a>
+<a class="sourceLine" id="cb14-3" data-line-number="3">  html document including some tools.</a>
+<a class="sourceLine" id="cb14-4" data-line-number="4"><span class="fu">create_dir:</span><span class="at"> false</span></a></code></pre></div>
+<p>他のパッケージをいろいろ見比べてみて、いろいろ試してみてください</p>
+</section><section class="slide level2">
+<h2>まとめ</h2>
+<p>こんな感じ:</p>
+<pre><code>(リポジトリのroot)
+ ├ R
+ │ └zousan_document.R &lt;- zousan::zousan_document()を準備
+ └inst
+  └rmarkdown
+   └templates
+    └(output_format名)
+      ├resource
+      │  └default.html &lt;- Pandocで流しこむ雛形ファイルを準備
+      └skeleton
+      │  └skeleton.Rmd &lt;- 新規Rmdファイルを作成するときのファイル
+      └template.yaml &lt;- Templateの説明とかを書く</code></pre>
+</section><section class="slide level2">
+<h2>では使ってみよう</h2>
+<p>(デモ)</p>
+</section></section>
+<section><section id="dlkfaj" class="title-slide slide level1"><h1>Rおじさん編</h1></section><section id="dslkfjan" class="slide level2">
+<h2>注意</h2>
+<ul>
+<li>ここから先は(内部的に)かなりマニアックなテンプレの紹介です
+<ul>
+<li>本当はこっちをメインにしたかった</li>
+<li>でも20分では無理でした</li>
+</ul></li>
+<li>簡単に2つ紹介して、かるい解説をします</li>
+</ul>
+</section><section id="dlfkada" class="slide level2">
+<h2>fullpagejsパッケージ</h2>
+<ul>
+<li>自分で主催した2泊3日の山中湖開発合宿内で作成したパッケージ
+<ul>
+<li>すごくいいところでした(詳細は #合宿だゾウ でTwitter検索)</li>
+</ul></li>
+<li>fullpage.jsというjsライブラリを利用してWebページをRmdで作成可能
+<ul>
+<li>この出力は<strong>Pandocに組み込まれていない</strong>ので、結構がんばった
+<ul>
+<li>reveal.jsはPandocに組み込まれいます</li>
+</ul></li>
+</ul></li>
+</ul>
+</section><section id="dlksdf" class="slide level2">
+<h2>xaringanパッケージ</h2>
+<ul>
+<li>R忍者(Xie Yuhui)が作ったスライド用パッケージ
+<ul>
+<li>remark.jsを神が使いたくて、構想1年･実装3ヶ月くらいで作った(はず)</li>
+</ul></li>
+<li>内部的にはすごいことをしてる
+<ul>
+<li>remark.jsは｢<strong>markdown</strong>で書かれた内容を高速にスライドにする｣ライブラリ</li>
+<li>なので、｢内部でmarkdownの内包を保持してバイパスを通してrender｣させてる
+<ul>
+<li>他の依存性を簡単にするためにPandocを利用しているが、正直Pandocいらなくね?って 構成</li>
+</ul></li>
+<li>半端ないって。</li>
+</ul></li>
+</ul>
+</section></section>
+<section><section id="hoge" class="title-slide slide level1"><h1>さいごに</h1></section><section id="hogehoge" class="slide level2">
+<h2>大切なのは欲求と想像力</h2>
+<ul>
+<li>HTMLでやりたいことはかなりできる
+<ul>
+<li>cssやjavascriptを自由に仕込める</li>
+<li>やりこめば(多分)ゲーム的なのも?</li>
+</ul></li>
+<li>実は同じようなやり方でTexもいける
+<ul>
+<li>このあたりはてふにしゃんにおまかせします</li>
+<li>気になる方は調べてみてください</li>
+</ul></li>
+</ul>
+</section><section id="hogehogehgoe" class="slide level2">
+<h2>つらみ</h2>
+<ul>
+<li>Pandocの仕様やversionで苦労する</li>
+<li>cssがどうあたってくるのかがわからん</li>
+<li>Javasciptはぞうさんにはわからん</li>
+<li>開発コストの割に報われない</li>
+<li>デバック? なにそれおいしいの?</li>
+</ul>
+</section><section id="enjoy" class="slide level2">
+<h2>Enjoy!</h2>
+</section></section>
+    </div>
+  </div>
+
+  <script src="create_rmd_template_files/reveal.js-3.3.0.1/lib/js/head.min.js"></script>
+  <script src="create_rmd_template_files/reveal.js-3.3.0.1/js/reveal.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        // Push each slide change to the browser history
+        history: true,
+        // Vertical centering of slides
+        center: true,
+        // Transition style
+        transition: 'default', // none/fade/slide/convex/concave/zoom
+        // Transition style for full page slide backgrounds
+        backgroundTransition: 'default', // none/fade/slide/convex/concave/zoom
+
+
+
+        chalkboard: {
+          theme: 'whiteboard',
+        },
+
+        keyboard: {
+          67: function() { RevealChalkboard.toggleNotesCanvas() },    // toggle notes canvas when 'c' is pressed
+          66: function() { RevealChalkboard.toggleChalkboard() }, // toggle chalkboard when 'b' is pressed
+          46: function() { RevealChalkboard.clear() },    // clear chalkboard when 'DEL' is pressed
+           8: function() { RevealChalkboard.reset() },    // reset chalkboard data on current slide when 'BACKSPACE' is pressed
+          68: function() { RevealChalkboard.download() }, // downlad recorded chalkboard drawing when 'd' is pressed
+        },
+
+        // Optional reveal.js plugins
+        dependencies: [
+          { src: 'create_rmd_template_files/reveal.js-3.3.0.1/plugin/notes/notes.js', async: true },
+          { src: 'create_rmd_template_files/reveal.js-3.3.0.1/plugin/chalkboard/chalkboard.js', async: true },
+        ]
+      });
+    </script>
+  <!-- dynamically load mathjax for compatibility with self-contained -->
+  <script>
+    (function () {
+      var script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+      document.getElementsByTagName("head")[0].appendChild(script);
+    })();
+  </script>
+
+<script>
+  (function() {
+    if (window.jQuery) {
+      Reveal.addEventListener( 'slidechanged', function(event) {  
+        window.jQuery(event.previousSlide).trigger('hidden');
+        window.jQuery(event.currentSlide).trigger('shown');
+      });
+    }
+  })();
+</script>
+
+
+  </body>
+</html>
